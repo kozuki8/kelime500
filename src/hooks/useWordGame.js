@@ -79,22 +79,20 @@ export default function useWordGame(mode = "unlimited") {
     mode === "daily" ? `word500-daily-${todayString}` : "word500-unlimited";
 
   const [answer, setAnswer] = useState(() => {
-  if (mode === "daily") {
-    const saved = JSON.parse(localStorage.getItem(storageKey) || "null");
-
-    if (
-      saved &&
-      saved.date === todayString &&
-      saved.answer
-  ) {
-      return saved.answer;
+    if (mode === "daily") {
+      try {
+        const saved = JSON.parse(localStorage.getItem(storageKey) || "null");
+        if (saved && saved.date === todayString && saved.answer) {
+          return saved.answer;
+        }
+      } catch (e) {
+        // yoksay
+      }
+      return getWordOfTheDay();
     }
+    return pickRandomWord();
+  });
 
-    return getWordOfTheDay();
-  }
-
-  return pickRandomWord();
-});
   const [guesses, setGuesses] = useState([]); // [{ word, result }]
   const [currentGuess, setCurrentGuess] = useState("");
   const [gameStatus, setGameStatus] = useState("playing"); // playing | won | lost
@@ -114,16 +112,15 @@ export default function useWordGame(mode = "unlimited") {
     return set;
   }, [guesses]);
 
-  // Kayıtlı oyunu yükle (aynı anahtar + aynı kelime için)
+  // Kayıtlı oyunu yükle (aynı anahtar + aynı gün + aynı kelime için)
   useEffect(() => {
     try {
       const saved = JSON.parse(localStorage.getItem(storageKey) || "null");
-      if (saved &&
-  saved.date === todayString &&
-  saved.answer === answer) {
+      if (saved && saved.date === todayString && saved.answer === answer) {
         setGuesses(saved.guesses || []);
         setGameStatus(saved.gameStatus || "playing");
         setKeyStatuses(saved.keyStatuses || {});
+        setCurrentGuess(saved.currentGuess || "");
       }
     } catch (e) {
       // localStorage okunamadıysa sessizce devam et
@@ -132,13 +129,20 @@ export default function useWordGame(mode = "unlimited") {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [storageKey]);
 
-  // Oyun durumunu kaydet
+  // Oyun durumunu kaydet (yazılmakta olan harfler dahil)
   useEffect(() => {
     localStorage.setItem(
       storageKey,
-      JSON.stringify({ date: todayString, answer, guesses, gameStatus, keyStatuses })
+      JSON.stringify({
+        date: todayString,
+        answer,
+        guesses,
+        gameStatus,
+        keyStatuses,
+        currentGuess,
+      })
     );
-  }, [storageKey, answer, guesses, gameStatus, keyStatuses]);
+  }, [storageKey, todayString, answer, guesses, gameStatus, keyStatuses, currentGuess]);
 
   // Mesajı bir süre sonra otomatik temizle
   useEffect(() => {

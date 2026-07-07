@@ -70,6 +70,7 @@ export default function Game({ mode, onBack }) {
         )}
 
         <Board
+          key={answer}
           guesses={guesses}
           currentGuess={currentGuess}
           wordLength={wordLength}
