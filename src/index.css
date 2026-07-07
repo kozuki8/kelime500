@@ -1,0 +1,290 @@
+:root {
+  --bg: #121213;
+  --fg: #ffffff;
+  --border-empty: #3a3a3c;
+  --border-filled: #565758;
+  --color-correct: #538d4e;
+  --color-present: #b59f3b;
+  --color-absent: #3a3a3c;
+  --key-bg: #818384;
+  --key-bg-hover: #9a9a9c;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--fg);
+  font-family: "Inter", system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+}
+
+.app {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.app-header {
+  width: 100%;
+  max-width: 500px;
+  padding: 16px;
+  border-bottom: 1px solid var(--border-empty);
+  text-align: center;
+}
+
+.app-header h1 {
+  margin: 0;
+  font-size: 28px;
+  font-weight: 700;
+  letter-spacing: 2px;
+}
+
+.app-main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  padding: 16px;
+  width: 100%;
+}
+
+/* Bildirim (toast) */
+.toast {
+  position: fixed;
+  top: 80px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #ffffff;
+  color: #121213;
+  padding: 10px 18px;
+  border-radius: 6px;
+  font-weight: 600;
+  z-index: 10;
+  animation: fadeInOut 1.8s ease forwards;
+}
+
+@keyframes fadeInOut {
+  0% { opacity: 0; transform: translate(-50%, -10px); }
+  15% { opacity: 1; transform: translate(-50%, 0); }
+  85% { opacity: 1; }
+  100% { opacity: 0; }
+}
+
+/* Sonuç bandı */
+.result-banner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 20px;
+  border-radius: 10px;
+  font-size: 16px;
+  font-weight: 600;
+  text-align: center;
+}
+
+.result-banner.won {
+  background: rgba(83, 141, 78, 0.2);
+  border: 1px solid var(--color-correct);
+}
+
+.result-banner.lost {
+  background: rgba(181, 159, 59, 0.15);
+  border: 1px solid var(--color-present);
+}
+
+.reset-button {
+  background: var(--fg);
+  color: var(--bg);
+  border: none;
+  padding: 8px 16px;
+  border-radius: 6px;
+  font-weight: 700;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.reset-button:hover {
+  opacity: 0.85;
+}
+
+/* Oyun tahtası */
+.board {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.board-row-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.board-row {
+  display: flex;
+  gap: 6px;
+}
+
+/* Satır sayacı (yeşil / sarı / kırmızı adet) */
+.row-counter {
+  display: flex;
+  gap: 4px;
+}
+
+.counter-box {
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 15px;
+  font-weight: 700;
+  border-radius: 4px;
+  color: var(--fg);
+}
+
+.counter-box.correct {
+  background: var(--color-correct);
+}
+
+.counter-box.present {
+  background: var(--color-present);
+}
+
+.counter-box.absent {
+  background: #b3413d;
+}
+
+.board-row.shake {
+  animation: shake 0.5s ease;
+}
+
+@keyframes shake {
+  10%, 90% { transform: translateX(-2px); }
+  20%, 80% { transform: translateX(4px); }
+  30%, 50%, 70% { transform: translateX(-8px); }
+  40%, 60% { transform: translateX(8px); }
+}
+
+.tile {
+  width: 56px;
+  height: 56px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 28px;
+  font-weight: 700;
+  text-transform: uppercase;
+  border: 2px solid var(--border-empty);
+  border-radius: 6px;
+  color: var(--fg);
+  user-select: none;
+}
+
+.tile.filled,
+.tile.active {
+  border-color: var(--border-filled);
+}
+
+.tile.correct {
+  background: var(--color-correct);
+  border-color: var(--color-correct);
+}
+
+.tile.present {
+  background: var(--color-present);
+  border-color: var(--color-present);
+}
+
+.tile.absent {
+  background: var(--color-absent);
+  border-color: var(--color-absent);
+}
+
+/* Klavye */
+.keyboard {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 12px;
+  width: 100%;
+  max-width: 500px;
+}
+
+.keyboard-row {
+  display: flex;
+  justify-content: center;
+  gap: 6px;
+}
+
+.key {
+  flex: 1;
+  max-width: 43px;
+  height: 58px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--key-bg);
+  color: var(--fg);
+  border: none;
+  border-radius: 4px;
+  font-size: 15px;
+  font-weight: 700;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+
+.key:hover {
+  background: var(--key-bg-hover);
+}
+
+.key-special {
+  max-width: 65px;
+  font-size: 12px;
+}
+
+.key.correct {
+  background: var(--color-correct);
+}
+
+.key.present {
+  background: var(--color-present);
+}
+
+.key.absent {
+  background: var(--color-absent);
+  opacity: 0.6;
+}
+
+.app-footer {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+@media (max-width: 420px) {
+  .tile {
+    width: 46px;
+    height: 46px;
+    font-size: 22px;
+  }
+  .key {
+    height: 50px;
+    font-size: 13px;
+  }
+  .counter-box {
+    width: 26px;
+    height: 26px;
+    font-size: 12px;
+  }
+  .board-row-wrapper {
+    gap: 8px;
+  }
+}

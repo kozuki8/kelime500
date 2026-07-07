@@ -1,0 +1,467 @@
+:root {
+  --bg: #121213;
+  --fg: #ffffff;
+  --border-empty: #3a3a3c;
+  --border-filled: #565758;
+  --color-correct: #538d4e;
+  --color-present: #b59f3b;
+  --color-absent: #3a3a3c;
+  --key-bg: #818384;
+  --key-bg-hover: #9a9a9c;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--fg);
+  font-family: "Inter", system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+}
+
+.app {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.app-header {
+  width: 100%;
+  max-width: 500px;
+  padding: 16px;
+  border-bottom: 1px solid var(--border-empty);
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.app-header h1 {
+  margin: 0;
+  font-size: 24px;
+  font-weight: 700;
+  letter-spacing: 2px;
+}
+
+.back-button {
+  align-self: flex-start;
+  background: none;
+  border: none;
+  color: var(--fg);
+  font-size: 14px;
+  cursor: pointer;
+  padding: 0;
+  opacity: 0.75;
+}
+
+.back-button:hover {
+  opacity: 1;
+}
+
+.app-main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  padding: 16px;
+  width: 100%;
+}
+
+/* Bildirim (toast) */
+.toast {
+  position: fixed;
+  top: 80px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #ffffff;
+  color: #121213;
+  padding: 10px 18px;
+  border-radius: 6px;
+  font-weight: 600;
+  z-index: 10;
+  animation: fadeInOut 1.8s ease forwards;
+}
+
+@keyframes fadeInOut {
+  0% { opacity: 0; transform: translate(-50%, -10px); }
+  15% { opacity: 1; transform: translate(-50%, 0); }
+  85% { opacity: 1; }
+  100% { opacity: 0; }
+}
+
+/* Sonuç bandı */
+.result-banner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 20px;
+  border-radius: 10px;
+  font-size: 16px;
+  font-weight: 600;
+  text-align: center;
+}
+
+.result-banner.won {
+  background: rgba(83, 141, 78, 0.2);
+  border: 1px solid var(--color-correct);
+}
+
+.result-banner.lost {
+  background: rgba(181, 159, 59, 0.15);
+  border: 1px solid var(--color-present);
+}
+
+.reset-button {
+  background: var(--fg);
+  color: var(--bg);
+  border: none;
+  padding: 8px 16px;
+  border-radius: 6px;
+  font-weight: 700;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.reset-button:hover {
+  opacity: 0.85;
+}
+
+/* Oyun tahtası */
+.board {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.board-row-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.board-row {
+  display: flex;
+  gap: 6px;
+}
+
+/* Satır sayacı (yeşil / sarı / kırmızı adet) */
+.row-counter {
+  display: flex;
+  gap: 4px;
+}
+
+.counter-box {
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 15px;
+  font-weight: 700;
+  border-radius: 4px;
+  color: var(--fg);
+}
+
+.counter-box.correct {
+  background: var(--color-correct);
+}
+
+.counter-box.present {
+  background: var(--color-present);
+}
+
+.counter-box.absent {
+  background: #b3413d;
+}
+
+.board-row.shake {
+  animation: shake 0.5s ease;
+}
+
+@keyframes shake {
+  10%, 90% { transform: translateX(-2px); }
+  20%, 80% { transform: translateX(4px); }
+  30%, 50%, 70% { transform: translateX(-8px); }
+  40%, 60% { transform: translateX(8px); }
+}
+
+.tile {
+  width: 56px;
+  height: 56px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 28px;
+  font-weight: 700;
+  border: 2px solid var(--border-empty);
+  border-radius: 6px;
+  color: var(--fg);
+  user-select: none;
+}
+
+.tile.clickable {
+  cursor: pointer;
+}
+
+.tile.filled,
+.tile.active {
+  border-color: var(--border-filled);
+}
+
+.tile.correct {
+  background: var(--color-correct);
+  border-color: var(--color-correct);
+}
+
+.tile.present {
+  background: var(--color-present);
+  border-color: var(--color-present);
+}
+
+.tile.absent {
+  background: #b3413d;
+  border-color: #b3413d;
+}
+
+/* Klavye */
+.keyboard {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 12px;
+  width: 100%;
+  max-width: 500px;
+}
+
+.keyboard-row {
+  display: flex;
+  justify-content: center;
+  gap: 6px;
+}
+
+.key {
+  flex: 1;
+  max-width: 43px;
+  height: 58px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--key-bg);
+  color: var(--fg);
+  border: none;
+  border-radius: 4px;
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.key:hover {
+  background: var(--key-bg-hover);
+}
+
+.key-special {
+  max-width: 65px;
+  font-size: 12px;
+}
+
+.key.absent {
+  background: #b3413d;
+}
+
+.app-footer {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+@media (max-width: 420px) {
+  .tile {
+    width: 46px;
+    height: 46px;
+    font-size: 22px;
+  }
+  .key {
+    height: 50px;
+    font-size: 13px;
+  }
+  .counter-box {
+    width: 26px;
+    height: 26px;
+    font-size: 12px;
+  }
+  .board-row-wrapper {
+    gap: 8px;
+  }
+}
+
+/* ---------- Ana sayfa ---------- */
+
+.home {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 24px;
+  padding: 24px;
+  text-align: center;
+}
+
+.home-title {
+  font-size: 42px;
+  font-weight: 800;
+  letter-spacing: 4px;
+  margin: 0;
+}
+
+.home-subtitle {
+  margin: 0;
+  color: var(--key-bg-hover);
+  font-size: 15px;
+}
+
+.home-cards {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  width: 100%;
+  max-width: 340px;
+}
+
+.mode-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  background: #1e1e1f;
+  border: 1px solid var(--border-empty);
+  border-radius: 12px;
+  padding: 20px;
+  cursor: pointer;
+  color: var(--fg);
+  transition: border-color 0.15s ease, transform 0.15s ease;
+}
+
+.mode-card:hover {
+  border-color: var(--color-correct);
+  transform: translateY(-2px);
+}
+
+.mode-icon {
+  font-size: 32px;
+}
+
+.mode-title {
+  font-size: 18px;
+  font-weight: 700;
+}
+
+.mode-desc {
+  font-size: 13px;
+  color: var(--key-bg-hover);
+}
+
+.how-to-play-link {
+  background: none;
+  border: none;
+  color: var(--key-bg-hover);
+  text-decoration: underline;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.how-to-play-link:hover {
+  color: var(--fg);
+}
+
+/* ---------- Nasıl oynanır modalı ---------- */
+
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.7);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 100;
+  padding: 16px;
+}
+
+.modal-content {
+  background: #1e1e1f;
+  border-radius: 12px;
+  padding: 24px;
+  max-width: 420px;
+  width: 100%;
+  max-height: 80vh;
+  overflow-y: auto;
+  position: relative;
+  text-align: left;
+}
+
+.modal-content h2 {
+  margin-top: 0;
+}
+
+.modal-close {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  background: none;
+  border: none;
+  color: var(--fg);
+  font-size: 18px;
+  cursor: pointer;
+}
+
+.how-to-play-list {
+  padding-left: 20px;
+  line-height: 1.6;
+  font-size: 14px;
+}
+
+.how-to-play-list ul {
+  list-style: none;
+  padding-left: 0;
+  margin: 8px 0;
+}
+
+.how-to-play-list ul li {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 4px 0;
+}
+
+.legend-box {
+  width: 18px;
+  height: 18px;
+  border-radius: 3px;
+  display: inline-block;
+  flex-shrink: 0;
+}
+
+.legend-box.correct {
+  background: var(--color-correct);
+}
+
+.legend-box.present {
+  background: var(--color-present);
+}
+
+.legend-box.absent {
+  background: #b3413d;
+}
+
+/* ---------- Günlük mod notu ---------- */
+
+.daily-note {
+  font-size: 14px;
+  color: var(--key-bg-hover);
+}
