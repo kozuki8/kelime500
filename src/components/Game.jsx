@@ -134,7 +134,6 @@ export default function Game({ mode, onBack }) {
           onLetter={addLetter}
           onEnter={submitGuess}
           onBackspace={removeLetter}
-          confirmedAbsentLetters={confirmedAbsentLetters}
           mode={mode}
           resetSignal={keyboardResetSignal}
         />
