@@ -18,7 +18,6 @@ export default function Keyboard({
   onEnter,
   onBackspace,
   mode = "daily",
-  resetSignal = 0,
 }) {
   const storageKey = `kelime500-manual-colors-v2-${mode}`;
 
@@ -34,18 +33,6 @@ export default function Keyboard({
   const longPressTimer = useRef(null);
   const longPressed = useRef(false);
   const menuRef = useRef(null);
-
-  const previousResetSignal = useRef(resetSignal);
-
-  useEffect(() => {
-  if (previousResetSignal.current === resetSignal) return;
-
-  previousResetSignal.current = resetSignal;
-
-  localStorage.setItem(storageKey, JSON.stringify({}));
-  setManualColors({});
-  setMenu(null);
-}, [resetSignal, storageKey]);
 
   useEffect(() => {
     try {
