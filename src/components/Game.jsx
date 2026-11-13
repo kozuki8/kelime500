@@ -1,7 +1,9 @@
-import { useEffect } from "react";
+
+import { useEffect, useState } from "react";
 import useWordGame from "../hooks/useWordGame";
 import Board from "./Board";
 import Keyboard from "./Keyboard";
+import ResultModal from "./ResultModal";
 
 const TURKISH_LETTER_REGEX = /^[a-zçğıöşü]$/i;
 
@@ -23,10 +25,20 @@ export default function Game({ mode, onBack }) {
     resetGame,
   } = useWordGame(mode);
 
+  const [resultDismissed, setResultDismissed] = useState(false);
+
+  // Oyun tekrar başladığında sonuç penceresini yeniden etkinleştir
+  useEffect(() => {
+    if (gameStatus === "playing") {
+      setResultDismissed(false);
+    }
+  }, [gameStatus]);
+
   // Fiziksel klavye desteği
   useEffect(() => {
     function handleKeyDown(e) {
       if (e.ctrlKey || e.metaKey || e.altKey) return;
+      if (gameStatus !== "playing") return;
 
       if (e.key === "Enter") {
         submitGuess();
@@ -39,7 +51,15 @@ export default function Game({ mode, onBack }) {
 
     window.addEventListener("keydown", handleKeyDown);
     return () => window.removeEventListener("keydown", handleKeyDown);
-  }, [addLetter, removeLetter, submitGuess]);
+  }, [addLetter, removeLetter, submitGuess, gameStatus]);
+
+  const handleNewGame = () => {
+    setResultDismissed(false);
+    resetGame();
+  };
+
+  const gameFinished =
+    gameStatus === "won" || gameStatus === "lost";
 
   return (
     <div className="app">
@@ -47,27 +67,13 @@ export default function Game({ mode, onBack }) {
         <button className="back-button" onClick={onBack}>
           ← Ana Sayfa
         </button>
-        <h1>{mode === "daily" ? "Günlük Kelime" : "Sınırsız Mod"}</h1>
+        <h1>
+          {mode === "daily" ? "Günlük Kelime" : "Sınırsız Mod"}
+        </h1>
       </header>
 
       <main className="app-main">
         {message && <div className="toast">{message}</div>}
-
-        {gameStatus !== "playing" && (
-          <div className={`result-banner ${gameStatus}`}>
-            {gameStatus === "won"
-              ? "🎉 Tebrikler, bildin!"
-              : `😔 Kaybettin. Kelime: ${answer.toLocaleUpperCase("tr-TR")}`}
-
-            {canRestart ? (
-              <button className="reset-button" onClick={resetGame}>
-                Yeni Oyun
-              </button>
-            ) : (
-              <span className="daily-note">Yarın yeni bir kelime seni bekliyor!</span>
-            )}
-          </div>
-        )}
 
         <Board
           key={answer}
@@ -77,6 +83,27 @@ export default function Game({ mode, onBack }) {
           maxGuesses={maxGuesses}
           shakeRow={shakeRow}
         />
+
+        {gameFinished && resultDismissed && (
+          <div className={`result-banner ${gameStatus}`}>
+            {gameStatus === "won"
+              ? "🎉 Tebrikler, bildin!"
+              : `😔 Kelime: ${answer.toLocaleUpperCase("tr-TR")}`}
+
+            {canRestart ? (
+              <button
+                className="reset-button"
+                onClick={handleNewGame}
+              >
+                Yeni Oyun
+              </button>
+            ) : (
+              <span className="daily-note">
+                Yarın yeni bir kelime seni bekliyor!
+              </span>
+            )}
+          </div>
+        )}
       </main>
 
       <footer className="app-footer">
@@ -88,6 +115,16 @@ export default function Game({ mode, onBack }) {
           mode={mode}
         />
       </footer>
+
+      {gameFinished && !resultDismissed && (
+        <ResultModal
+          status={gameStatus}
+          answer={answer}
+          guessCount={guesses.length}
+          onClose={() => setResultDismissed(true)}
+          onPlayAgain={canRestart ? handleNewGame : undefined}
+        />
+      )}
     </div>
   );
 }
