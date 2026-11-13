@@ -17,7 +17,6 @@ export default function Keyboard({
   onLetter,
   onEnter,
   onBackspace,
-  confirmedAbsentLetters,
   mode = "daily",
   resetSignal = 0,
 }) {
@@ -150,10 +149,6 @@ export default function Keyboard({
             {row.map((key) => {
               const isSpecial =
                 key === "ENTER" || key === "BACKSPACE";
-
-              const isConfirmedAbsent =
-                !isSpecial &&
-                confirmedAbsentLetters?.has(key);
 
               const colorClass = isSpecial
                 ? ""
