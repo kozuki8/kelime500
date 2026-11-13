@@ -85,6 +85,7 @@ export default function Game({ mode, onBack }) {
           onEnter={submitGuess}
           onBackspace={removeLetter}
           confirmedAbsentLetters={confirmedAbsentLetters}
+          mode={mode}
         />
       </footer>
     </div>
