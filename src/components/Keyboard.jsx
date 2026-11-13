@@ -20,7 +20,7 @@ export default function Keyboard({
   confirmedAbsentLetters,
   mode = "daily",
 }) {
-  const storageKey = `kelime500-keyboard-colors-${mode}`;
+  const storageKey = `kelime500-manual-colors-v2-${mode}`;
 
   const [manualColors, setManualColors] = useState(() => {
     try {
