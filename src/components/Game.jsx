@@ -75,14 +75,36 @@ export default function Game({ mode, onBack }) {
       <main className="app-main">
         {message && <div className="toast">{message}</div>}
 
-        <Board
-          key={answer}
-          guesses={guesses}
-          currentGuess={currentGuess}
-          wordLength={wordLength}
-          maxGuesses={maxGuesses}
-          shakeRow={shakeRow}
-        />
+        
+    <div className="game-board-layout">
+      <Board
+        key={answer}
+        guesses={guesses}
+        currentGuess={currentGuess}
+        wordLength={wordLength}
+        maxGuesses={maxGuesses}
+        shakeRow={shakeRow}
+      />
+      <aside className="game-tips">
+    <div className="game-tips-title">
+      💡 İpucu
+    </div>
+
+    <p>
+      Klavyedeki harflere <strong>sağ tıklayarak</strong>
+      {" "}renklerini değiştirebilirsin.
+      Telefonda harfe uzun bas!
+    </p>
+
+    <p>
+      Tahmin satırlarındaki
+      {" "}<strong> harflere tıklayarak</strong>
+      {" "}renklerini değiştirebilirsin.
+    </p>
+  </aside>
+</div>
+   
+
 
         {gameFinished && resultDismissed && (
           <div className={`result-banner ${gameStatus}`}>
