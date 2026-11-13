@@ -355,3 +355,160 @@ body {
     gap: 8px;
   }
 }
+
+.keyboard .key.absent {
+  background-color: #c94c4c;
+  color: white;
+  opacity: 1;
+}
+
+
+/* Ekranı kaplayan arka plan */
+.result-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  background: rgba(0, 0, 0, 0.65);
+  backdrop-filter: blur(5px);
+}
+
+/* Sonuç penceresi */
+.result-modal {
+  width: 100%;
+  max-width: 420px;
+  max-height: 90dvh;
+  overflow-y: auto;
+  padding: 32px 26px;
+  border-radius: 20px;
+  background: #24262b;
+  color: white;
+  text-align: center;
+  box-shadow: 0 15px 50px rgba(0, 0, 0, 0.45);
+  animation: resultPop 0.3s ease-out;
+}
+
+.result-icon {
+  font-size: 56px;
+  margin-bottom: 12px;
+}
+
+.result-modal h2 {
+  font-size: 30px;
+  margin: 0 0 12px;
+}
+
+.result-win {
+  color: #62c77c;
+}
+
+.result-lose {
+  color: #ff7777;
+}
+
+.result-message {
+  font-size: 16px;
+  line-height: 1.5;
+  margin-bottom: 22px;
+}
+
+.result-answer-box {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 18px;
+  background: #34373e;
+  border-radius: 12px;
+}
+
+.result-answer-box span {
+  color: #bbbbbb;
+  font-size: 14px;
+}
+
+.result-answer-box strong {
+  font-size: 30px;
+  letter-spacing: 5px;
+}
+
+.result-count {
+  font-size: 17px;
+  font-weight: 600;
+  color: #62c77c;
+  margin: 18px 0;
+}
+
+.result-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 22px;
+}
+
+.result-buttons button {
+  padding: 14px;
+  border: none;
+  border-radius: 10px;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.result-again-button {
+  background: #538d4e;
+  color: white;
+}
+
+.result-close-button {
+  background: #454952;
+  color: white;
+}
+
+@keyframes resultPop {
+  from {
+    opacity: 0;
+    transform: scale(0.85) translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+/* Telefon ekranları */
+@media (max-width: 600px) {
+  .result-overlay {
+    padding: 16px;
+  }
+
+  .result-modal {
+    max-width: 360px;
+    padding: 26px 18px;
+    border-radius: 18px;
+  }
+
+  .result-icon {
+    font-size: 48px;
+  }
+
+  .result-modal h2 {
+    font-size: 26px;
+  }
+
+  .result-answer-box strong {
+    font-size: 26px;
+  }
+
+  .result-buttons button {
+    min-height: 48px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .result-modal {
+    animation: none;
+  }
+}
