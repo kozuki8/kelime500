@@ -19,7 +19,8 @@ export default function Keyboard({
   onBackspace,
   confirmedAbsentLetters,
   mode = "daily",
-}) {
+  resetSignal = 0,
+}) { {
   const storageKey = `kelime500-manual-colors-v2-${mode}`;
 
   const [manualColors, setManualColors] = useState(() => {
@@ -34,6 +35,18 @@ export default function Keyboard({
   const longPressTimer = useRef(null);
   const longPressed = useRef(false);
   const menuRef = useRef(null);
+
+  const previousResetSignal = useRef(resetSignal);
+
+  useEffect(() => {
+    if (previousResetSignal.current === resetSignal) return;
+
+    previousResetSignal.current = resetSignal;
+
+    setManualColors({});
+    localStorage.removeItem(storageKey);
+    setMenu(null);
+  }, [resetSignal, storageKey]);
 
   useEffect(() => {
     try {
