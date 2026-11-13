@@ -224,6 +224,73 @@ body {
   gap: 6px;
 }
 
+/* Manuel klavye renkleri */
+.keyboard .key.correct {
+  background-color: #538d4e;
+  color: white;
+}
+
+.keyboard .key.present {
+  background-color: #b59f3b;
+  color: white;
+}
+
+.keyboard .key.absent {
+  background-color: #c94c4c;
+  color: white;
+}
+
+/* Mobilde uzun basınca metin seçilmesini engeller */
+.keyboard .key {
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+}
+
+/* Sağ tık renk menüsü */
+.keyboard-color-menu {
+  width: 160px;
+  padding: 8px;
+  background: #24262b;
+  border: 1px solid #555;
+  border-radius: 10px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+}
+
+.keyboard-color-title {
+  color: white;
+  font-size: 13px;
+  font-weight: bold;
+  padding: 6px 8px;
+  border-bottom: 1px solid #555;
+  margin-bottom: 5px;
+}
+
+.keyboard-color-option {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 9px;
+  background: transparent;
+  border: none;
+  color: white;
+  text-align: left;
+  cursor: pointer;
+  border-radius: 6px;
+}
+
+.keyboard-color-option:hover {
+  background: #3c4048;
+}
+
+.keyboard-color-dot {
+  width: 15px;
+  height: 15px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
 .key {
   flex: 1;
   max-width: 43px;
