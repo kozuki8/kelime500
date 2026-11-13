@@ -512,3 +512,69 @@ body {
     animation: none;
   }
 }
+
+
+/* Oyun tahtası ve ipucu */
+.game-board-layout {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
+
+.game-tips {
+  position: absolute;
+  left: calc(50% + 270px);
+  width: 210px;
+  padding: 14px;
+  background: #1e1e20;
+  border: 1px solid #3a3a3c;
+  border-radius: 10px;
+  color: #c7c7c7;
+  font-size: 12px;
+  line-height: 1.6;
+}
+
+.game-tips-title {
+  color: #ffffff;
+  font-size: 14px;
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+
+.game-tips p {
+  margin: 0 0 10px;
+}
+
+.game-tips p:last-child {
+  margin-bottom: 0;
+}
+
+.game-tips strong {
+  color: #ffffff;
+}
+
+/* Tablet ve telefon görünümü */
+@media (max-width: 1050px) {
+  .game-board-layout {
+    flex-direction: column;
+    gap: 14px;
+  }
+
+  .game-tips {
+    position: static;
+    width: min(100%, 400px);
+    padding: 10px 14px;
+    font-size: 11px;
+  }
+
+  .game-tips-title {
+    margin-bottom: 4px;
+  }
+
+  .game-tips p {
+    margin-bottom: 5px;
+  }
+}
+
