@@ -26,6 +26,7 @@ export default function Game({ mode, onBack }) {
   } = useWordGame(mode);
 
   const [resultDismissed, setResultDismissed] = useState(false);
+  const [keyboardResetSignal, setKeyboardResetSignal] = useState(0);
 
   // Oyun tekrar başladığında sonuç penceresini yeniden etkinleştir
   useEffect(() => {
@@ -54,10 +55,10 @@ export default function Game({ mode, onBack }) {
   }, [addLetter, removeLetter, submitGuess, gameStatus]);
 
   const handleNewGame = () => {
-    setResultDismissed(false);
-    resetGame();
-  };
-
+  setResultDismissed(false);
+  setKeyboardResetSignal((previous) => previous + 1);
+  resetGame();
+};
   const gameFinished =
     gameStatus === "won" || gameStatus === "lost";
 
@@ -135,6 +136,7 @@ export default function Game({ mode, onBack }) {
           onBackspace={removeLetter}
           confirmedAbsentLetters={confirmedAbsentLetters}
           mode={mode}
+          resetSignal={keyboardResetSignal}
         />
       </footer>
 
