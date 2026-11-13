@@ -144,8 +144,7 @@ export default function Keyboard({
 
               const colorClass = isSpecial
                 ? ""
-                : manualColors[key] ||
-                  (isConfirmedAbsent ? "absent" : "");
+                : manualColors[key] || "";
 
               const label =
                 key === "BACKSPACE"
