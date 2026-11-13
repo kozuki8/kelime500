@@ -54,10 +54,16 @@ export default function Game({ mode, onBack }) {
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, [addLetter, removeLetter, submitGuess, gameStatus]);
 
-  const handleNewGame = () => {
-  setResultDismissed(false);
+ const handleNewGame = () => {
+  // Önceki oyunun klavye renklerini temizle
+  localStorage.removeItem(`kelime500-manual-colors-v2-${mode}`);
+
+  // Klavyeyi yeniden oluştur
   setKeyboardResetSignal((previous) => previous + 1);
+
+  // Oyunu yeniden başlat
   resetGame();
+  setResultDismissed(false);
 };
   const gameFinished =
     gameStatus === "won" || gameStatus === "lost";
@@ -131,12 +137,12 @@ export default function Game({ mode, onBack }) {
 
       <footer className="app-footer">
         <Keyboard
-          onLetter={addLetter}
-          onEnter={submitGuess}
-          onBackspace={removeLetter}
-          mode={mode}
-          resetSignal={keyboardResetSignal}
-        />
+  key={`${mode}-${keyboardResetSignal}`}
+  onLetter={addLetter}
+  onEnter={submitGuess}
+  onBackspace={removeLetter}
+  mode={mode}
+/>
       </footer>
 
       {gameFinished && !resultDismissed && (
