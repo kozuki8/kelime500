@@ -20,7 +20,7 @@ export default function Keyboard({
   confirmedAbsentLetters,
   mode = "daily",
   resetSignal = 0,
-}) { {
+}) {
   const storageKey = `kelime500-manual-colors-v2-${mode}`;
 
   const [manualColors, setManualColors] = useState(() => {
@@ -39,14 +39,14 @@ export default function Keyboard({
   const previousResetSignal = useRef(resetSignal);
 
   useEffect(() => {
-    if (previousResetSignal.current === resetSignal) return;
+  if (previousResetSignal.current === resetSignal) return;
 
-    previousResetSignal.current = resetSignal;
+  previousResetSignal.current = resetSignal;
 
-    setManualColors({});
-    localStorage.removeItem(storageKey);
-    setMenu(null);
-  }, [resetSignal, storageKey]);
+  localStorage.setItem(storageKey, JSON.stringify({}));
+  setManualColors({});
+  setMenu(null);
+}, [resetSignal, storageKey]);
 
   useEffect(() => {
     try {
