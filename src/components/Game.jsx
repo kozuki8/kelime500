@@ -56,7 +56,7 @@ export default function Game({ mode, onBack }) {
 
  const handleNewGame = () => {
   // Önceki oyunun klavye renklerini temizle
-  localStorage.removeItem(`kelime500-manual-colors-v2-${mode}`);
+  localStorage.removeItem(`kelime500-manual-colors-v3-${mode}`);
 
   // Klavyeyi yeniden oluştur
   setKeyboardResetSignal((previous) => previous + 1);
