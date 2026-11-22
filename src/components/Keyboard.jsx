@@ -19,7 +19,18 @@ export default function Keyboard({
   onBackspace,
   mode = "daily",
 }) {
-  const storageKey = `kelime500-manual-colors-v2-${mode}`;
+  const today = new Date();
+
+const dailyDate = [
+  today.getFullYear(),
+  String(today.getMonth() + 1).padStart(2, "0"),
+  String(today.getDate()).padStart(2, "0"),
+].join("-");
+
+const storageKey =
+  mode === "daily"
+    ? `kelime500-manual-colors-v3-daily-${dailyDate}`
+    : `kelime500-manual-colors-v3-${mode}`;
 
   const [manualColors, setManualColors] = useState(() => {
     try {
